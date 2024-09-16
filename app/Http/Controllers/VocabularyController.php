@@ -91,4 +91,9 @@ class VocabularyController extends Controller
         $vocabulary = Vocabulary::create($validatedData);
         return response()->json(['success' => true, 'id' => $vocabulary->id, 'message' => 'Deletion successful']);
     }
+
+    public function redirectToVocabulariesList(Request $request)
+    {
+        return redirect('/')->header('Authorization', 'Bearer ' . $request()->bearerToken());
+    }
 }

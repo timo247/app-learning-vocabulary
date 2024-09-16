@@ -19,7 +19,7 @@ use App\Http\Controllers\VocabularyController;
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('vocabularies', [VocabularyController::class, 'index']);
+    Route::post('vocabularies', [VocabularyController::class, 'redirectToVocabulariesList']);
     Route::post('/update', [VocabularyController::class, 'update']);
     Route::post('/create', [VocabularyController::class, 'store']);
     Route::delete('/delete', [VocabularyController::class, 'destroy']);
