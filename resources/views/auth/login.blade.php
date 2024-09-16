@@ -9,7 +9,7 @@
 
 <body>
     <h1>Login</h1>
-    <form id="login-form" accept-charset="UTF-8">
+    <form id="login-form" method="POST" action="/login" accept-charset="UTF-8">
         @csrf
         <div>
             <label for="email">Email:</label>
@@ -28,7 +28,7 @@
     const loginForm = document.getElementById('login-form');
     const csrfToken = document.querySelector('input[name="_token"]').getAttribute('value')
 
-    loginForm.addEventListener('submit', (e) => e.preventDefault());
+    //loginForm.addEventListener('submit', (e) => e.preventDefault());
 
     function login() {
         console.log("CSRF Token:", csrfToken);

@@ -12,10 +12,11 @@ class VocabularyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($user, $token)
     {
         $vocabularies = Vocabulary::all(); // Récupère toutes les phrases
-        return view('home', compact('vocabularies')); // Retourne une vue avec les phrases
+        return view('home', compact('vocabularies'))
+            ->with("data", ["user" => $user, "token" => $token]); // user and token are used after for performing CUD from the view
     }
 
     public function update(Request $request)
@@ -94,6 +95,7 @@ class VocabularyController extends Controller
 
     public function redirectToVocabulariesList(Request $request)
     {
-        return redirect('/')->header('Authorization', 'Bearer ' . $request()->bearerToken());
+        $token = $request->bearerToken();
+        return redirect('/')->header('Authorization', 'Bearer ' . $token);
     }
 }
