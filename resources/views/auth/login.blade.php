@@ -23,55 +23,6 @@
     </form>
 </body>
 
-<script>
-    const appUrl = "{{ env('APP_URL') }}";
-    const loginForm = document.getElementById('login-form');
-    const csrfToken = document.querySelector('input[name="_token"]').getAttribute('value')
-
-    //loginForm.addEventListener('submit', (e) => e.preventDefault());
-
-    function login() {
-        console.log("CSRF Token:", csrfToken);
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        fetch(`${appUrl}/api/login`, {
-
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                }),
-            })
-            .then(response => response.json())
-            .then(response => {
-                if (response.data.token) {
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('user', response.data.user.id)
-                    return redirectToVocabularies(response.data.user.id, response.data.token)
-                } else {
-                    alert('Invalid credentials');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-            });
-    }
-
-    function redirectToVocabularies(userId, token) {
-        console.log('on se rend à vocabularies')
-        fetch(`${appUrl}/api/vocabularies`, {
-            method: 'post',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Content-Type': 'application/json',
-            }
-        });
-    }
-</script>
+<script></script>
 
 </html>
