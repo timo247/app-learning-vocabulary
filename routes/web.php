@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VocabularyController;
 
 /*
@@ -19,4 +20,8 @@ use App\Http\Controllers\VocabularyController;
 });
 */
 
-Route::get('/', [VocabularyController::class, 'index'])->name('home');
+Route::get('login', [UserController::class, 'login'])->name('login');
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [VocabularyController::class, 'index'])->name('home');
+});

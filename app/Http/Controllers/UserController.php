@@ -9,7 +9,12 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
-    function login(Request $request)
+    function login()
+    {
+        return view('auth.login');
+    }
+
+    function authenticate(Request $request)
     {
         $user = User::where('email', $request->email)->first();
         // print_r($data);
@@ -18,14 +23,12 @@ class UserController extends Controller
                 'message' => ['These credentials do not match our records.']
             ], 404);
         }
-
         $token = $user->createToken('my-app-token')->plainTextToken;
-
-        $response = [
-            'user' => $user,
+        $data = [
+            'user' => $user->toArray(),
             'token' => $token
         ];
-        return response($response, 201);
+        return response()->json(['success' => true, 'data' => $data], 200);
     }
 
     function logout(Request $request)

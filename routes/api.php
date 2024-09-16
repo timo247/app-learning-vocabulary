@@ -16,18 +16,17 @@ use App\Http\Controllers\VocabularyController;
 |
 */
 
-Route::post('/update', [VocabularyController::class, 'update']);
-Route::post('/create', [VocabularyController::class, 'store']);
-Route::delete('/delete', [VocabularyController::class, 'destroy']);
+
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('/test', function () {
-        return response('oui', 201);
-    });
+    Route::post('vocabularies', [VocabularyController::class, 'index']);
+    Route::post('/update', [VocabularyController::class, 'update']);
+    Route::post('/create', [VocabularyController::class, 'store']);
+    Route::delete('/delete', [VocabularyController::class, 'destroy']);
 });
 
-Route::post("login", [UserController::class, 'login'])->name('login');
+Route::post("login", [UserController::class, 'authenticate'])->name('authenticate');
 Route::post("logout", [UserController::class, 'logout']);
-Route::get('/login', function () {
-    return view('auth.login');
-});
+// Route::get('/login', function () {
+//     return view('auth.login');
+// });

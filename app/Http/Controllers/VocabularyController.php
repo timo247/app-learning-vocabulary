@@ -12,7 +12,7 @@ class VocabularyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $vocabularies = Vocabulary::all(); // Récupère toutes les phrases
         return view('home', compact('vocabularies')); // Retourne une vue avec les phrases
