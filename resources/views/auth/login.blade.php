@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="content">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,6 @@
         </div>
         <button type="submit" onclick="login()"> Envoyer </button>
     </form>
-
 </body>
 
 <script>
@@ -65,19 +64,13 @@
     function redirectToVocabularies(userId, token) {
         console.log('on se rend à vocabularies')
         fetch(`${appUrl}/api/vocabularies`, {
-                method: 'post',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(html => {
-                document.getElementById('content').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement du contenu:', error);
-            });;
+            method: 'post',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json',
+            }
+        });
     }
 </script>
 
