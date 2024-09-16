@@ -16,7 +16,7 @@ class VocabularyController extends Controller
     {
         $vocabularies = Vocabulary::all(); // Récupère toutes les phrases
         return view('home', compact('vocabularies'))
-            ->with("data", ["user" => $user, "token" => $token]); // user and token are used after for performing CUD from the view
+            ->with("token", $token); // user and token are used after for performing CUD from the view
     }
 
     public function update(Request $request)

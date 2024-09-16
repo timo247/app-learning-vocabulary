@@ -202,9 +202,10 @@
             "#6E69FF", "#ef476f", "#ffd166", "#FFFA75", "#AEFCB2", "white"
         ]
         let currentCellSpan;
-        rowToDelete = null;
+        let rowToDelete = null;
         const vocabularies = @json($vocabularies);
-        console.log(vocabularies)
+        const userToken = @json($token);
+        console.log(vocabularies, userToken)
 
         function seedTables() {
             vocabularies.forEach(voc => {
@@ -227,7 +228,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // if Laravel CSRF protection
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Authorization': `Bearer ${userToken}`
                     },
                     body: JSON.stringify({
                         is_sentence: isSentence,
@@ -319,7 +321,8 @@
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // if Laravel CSRF protection
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Authorization': `Bearer ${userToken}`
                     },
                     body: JSON.stringify({
                         id: id
@@ -378,7 +381,8 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // if Laravel CSRF protection
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Authorization': `Bearer ${userToken}`
                         },
                         body: JSON.stringify({
                             id: id,
@@ -401,7 +405,8 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // if Laravel CSRF protection
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Authorization': `Bearer ${userToken}`
                         },
                         body: JSON.stringify({
                             id: id,
@@ -435,7 +440,8 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // if Laravel CSRF protection
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Authorization': `Bearer ${userToken}`
                         },
                         body: JSON.stringify({
                             id: cellId,
@@ -460,7 +466,8 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // if Laravel CSRF protection
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Authorization': `Bearer ${userToken}`
                         },
                         body: JSON.stringify({
                             id: cellId,
