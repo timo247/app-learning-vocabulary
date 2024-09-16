@@ -22,8 +22,7 @@ use App\Http\Controllers\VocabularyController;
 
 Route::get('login', [UserController::class, 'login'])->name('login');
 Route::post('login', [UserController::class, 'authenticate']);
-//Route::get('/', [VocabularyController::class, 'index'])->name('home');
-
+Route::post('logout', [UserController::class, 'logout']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/', [VocabularyController::class, 'index'])->name('home');

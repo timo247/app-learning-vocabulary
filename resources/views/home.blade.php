@@ -136,6 +136,13 @@
 </head>
 
 <body>
+    <div id="top">
+        <form id="logout-form" method="POST" action="/logout" accept-charset="UTF-8">
+            @csrf
+            <input type="hidden" name="userToken" id="userToken" value="{{ $token }}">
+            <button type="submit"> Se déconnecter </button>
+        </form>
+    </div>
     <h1>Vocabulaire sérère</h1>
 
     <h2>Phrases</h2>
@@ -197,6 +204,7 @@
     </div>
 
     <script>
+        const appUrl = 'http://127.0.0.1:8000/'
         const apiUrl = 'http://127.0.0.1:8000/api'
         const knowledgeColors = [
             "#6E69FF", "#ef476f", "#ffd166", "#FFFA75", "#AEFCB2", "white"
@@ -489,7 +497,6 @@
                     });
             }
         }
-
 
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' && document.getElementById('editCellModale').style.display === "flex") {

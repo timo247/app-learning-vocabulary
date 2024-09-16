@@ -19,7 +19,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required value="password">
         </div>
-        <button type="submit" onclick="login()"> Envoyer </button>
+        <button type="submit"> Envoyer </button>
     </form>
 </body>
 
