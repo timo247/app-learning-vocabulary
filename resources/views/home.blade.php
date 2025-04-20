@@ -132,6 +132,54 @@
         .no-border {
             border: none;
         }
+
+        .autocomplete {
+            position: relative;
+            width: 300px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            pointer-events: none;
+            color: #888;
+            font-size: 18px;
+        }
+
+        .autocomplete input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding-right: 30px;
+        }
+
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            border-radius: 0 0 8px 8px;
+            display: none;
+        }
+
+        .autocomplete-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 
@@ -144,6 +192,14 @@
         </form>
     </div>
     <h1>Vocabulaire sérère</h1>
+
+
+    <div class="autocomplete">
+        <input type="text" id="searchInput" placeholder="Rechercher un mot..." />
+        <span class="search-icon">🔍</span>
+        <div id="autocompleteList" class="autocomplete-list"></div>
+    </div>
+
 
     <h2>Phrases</h2>
     <table class="sentences">
@@ -214,6 +270,7 @@
         const vocabularies = @json($vocabularies);
         const userToken = @json($token);
         console.log(vocabularies, userToken)
+
 
         function seedTables() {
             vocabularies.forEach(voc => {
@@ -506,8 +563,65 @@
                 closeEditModal();
             }
         });
+
+
+        function manageSearchBar() {
+            const searchableWords = vocabularies.flatMap(entry => [entry.french.toLowerCase(), entry.serere.toLowerCase()]);
+            const searchInput = document.getElementById("searchInput");
+            const searchList = document.getElementById("autocompleteList");
+            searchInput.addEventListener("input", () => {
+                const query = searchInput.value.toLowerCase();
+                console.log(`on cherche ${query}`)
+                console.log(`mots recherchables: ${searchableWords}`)
+                // Reinitialise search list
+                searchList.innerHTML = "";
+                searchList.style.display = "none";
+                if (query.length < 3) return;
+                const matches = searchableWords.filter(word => word.includes(query));
+                console.log(`les matches: ${matches}`)
+                if (matches.length === 0) return;
+                matches.forEach(match => {
+                    console.log("matvch !")
+                    const item = document.createElement("div");
+                    item.textContent = match;
+                    item.classList.add("autocomplete-item");
+                    item.addEventListener("click", () => {
+                        searchInput.value = "";
+                        searchInput.blur();
+                        searchList.innerHTML = "";
+                        searchList.style.display = "none";
+                        const target = Array.from(document.querySelectorAll("span"))
+                            .find(span => span.textContent.trim().toLowerCase() === match
+                                .toLowerCase());
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                        }
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    });
+                    searchList.appendChild(item);
+                });
+                searchList.style.display = "block";
+            });
+
+            // Close search list if user clicks elsewhere
+            document.addEventListener("click", (e) => {
+                if (!document.querySelector(".autocomplete").contains(e.target)) {
+                    searchList.innerHTML = "";
+                    searchList.style.display = "none";
+                }
+            });
+        }
+
+
         document.addEventListener('DOMContentLoaded', function() {
             seedTables();
+            manageSearchBar();
         });
     </script>
 

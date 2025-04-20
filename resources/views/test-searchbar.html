@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Autocomplete en Vanilla JS</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 50px;
+        }
+
+        .autocomplete {
+            position: relative;
+            width: 300px;
+        }
+
+        .autocomplete input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .autocomplete-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="autocomplete">
+        <input type="text" id="searchInput" placeholder="Tape au moins 3 lettres..." autocomplete="off" />
+        <div id="autocompleteList" class="autocomplete-list" style="display: none;"></div>
+    </div>
+
+    <script>
+
+        const data = [
+            {
+                "id": 1,
+                "is_sentence": 1,
+                "french": "Phrase en Français",
+                "serere": "Phrase en sérère",
+                "correctly_translated": 0,
+                "correctly_understood": null,
+                "created_at": "2024-08-04T22:45:35.000000Z",
+                "updated_at": "2024-08-04T22:45:35.000000Z"
+            },
+            {
+                "id": 2,
+                "is_sentence": 0,
+                "french": "Mot en Français",
+                "serere": "Mot en sérère",
+                "correctly_translated": 0,
+                "correctly_understood": null,
+                "created_at": "2024-08-04T22:45:37.000000Z",
+                "updated_at": "2024-08-04T22:45:37.000000Z"
+            },
+            {
+                "id": 4,
+                "is_sentence": 0,
+                "french": "Mot en Français",
+                "serere": "Mot en sérère",
+                "correctly_translated": 0,
+                "correctly_understood": null,
+                "created_at": "2024-08-04T22:45:43.000000Z",
+                "updated_at": "2024-08-04T22:45:43.000000Z"
+            },
+            {
+                "id": 5,
+                "is_sentence": 1,
+                "french": "gij khamou nan",
+                "serere": "ça fait longtemps que je ne t'ai pas entendu",
+                "correctly_translated": 0,
+                "correctly_understood": 0,
+                "created_at": "2024-08-04T22:46:00.000000Z",
+                "updated_at": "2024-08-04T22:46:16.000000Z"
+            },
+            {
+                "id": 9,
+                "is_sentence": 1,
+                "french": "Phrase en Français",
+                "serere": "Phrase en sérère",
+                "correctly_translated": 0,
+                "correctly_understood": null,
+                "created_at": "2024-09-16T17:11:10.000000Z",
+                "updated_at": "2024-09-16T17:11:10.000000Z"
+            }
+        ];
+
+
+        const words = data.flatMap(entry => [entry.french, entry.serere]);
+        console.log(words)
+
+
+        const input = document.getElementById("searchInput");
+        const list = document.getElementById("autocompleteList");
+
+        input.addEventListener("input", () => {
+            const query = input.value.toLowerCase();
+
+            // Réinitialise la liste
+            list.innerHTML = "";
+            list.style.display = "none";
+
+            if (query.length < 3) return;
+
+            const matches = words.filter(word => word.includes(query));
+            if (matches.length === 0) return;
+
+            matches.forEach(match => {
+                const item = document.createElement("div");
+                item.textContent = match;
+                item.classList.add("autocomplete-item");
+                item.addEventListener("click", () => {
+                    input.value = match;
+                    list.innerHTML = "";
+                    list.style.display = "none";
+                });
+                list.appendChild(item);
+            });
+
+            list.style.display = "block";
+        });
+
+        // Fermer la liste si on clique ailleurs
+        document.addEventListener("click", (e) => {
+            if (!document.querySelector(".autocomplete").contains(e.target)) {
+                list.innerHTML = "";
+                list.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

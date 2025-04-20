@@ -137,7 +137,10 @@
 
 <body>
     <h1>Vocabulaire sérère</h1>
-
+    <div style="margin-bottom: 20px;">
+        <input type="text" id="searchInput" placeholder="Rechercher un mot..." style="padding: 8px; width: 200px;">
+        <button onclick="searchKeyword()" style="padding: 8px;">🔍</button>
+    </div>
     <h2>Phrases</h2>
     <table class="sentences">
         <thead>
@@ -495,6 +498,30 @@
         document.addEventListener('DOMContentLoaded', function() {
             seedTables();
         });
+
+        function searchKeyword() {
+            const keyword = document.getElementById("searchInput").value.toLowerCase();
+            if (!keyword) return;
+
+            const allSpans = document.querySelectorAll("td span");
+            let found = false;
+
+            allSpans.forEach(span => {
+                if (span.textContent.toLowerCase().includes(keyword) && !found) {
+                    span.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                    span.style.backgroundColor = "#ffeb3b"; // surlignage temporaire
+                    setTimeout(() => span.style.backgroundColor = "", 1500); // retire le surlignage
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                alert("Mot non trouvé !");
+            }
+        }
     </script>
 
 </body>
